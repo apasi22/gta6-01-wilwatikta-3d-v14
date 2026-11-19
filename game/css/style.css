@@ -1,0 +1,136 @@
+/* style.css — tampilan WILWATIKTA 3D: HUD gelap transparan, aksen oranye,
+   panel misi, kru, peta, dan layar title. Semua warna dibuat untuk dibaca
+   di atas render 3D siang maupun malam. */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #0a0c10; overflow: hidden; font-family: 'Segoe UI', Arial, sans-serif; }
+#stage { position: relative; width: 1280px; height: 720px; margin: 0 auto; overflow: hidden; background: #000; }
+#game { width: 1280px; height: 720px; display: block; }
+.hidden { display: none !important; }
+
+/* ---------- HUD ---------- */
+#hud { position: absolute; inset: 0; pointer-events: none; color: #fff; }
+#hud button { pointer-events: auto; }
+
+#minimap-wrap { position: absolute; top: 14px; left: 14px; width: 150px; }
+#minimap { width: 150px; height: 150px; border-radius: 50%; border: 3px solid #ffd21f; box-shadow: 0 0 0 3px rgba(0,0,0,0.55), 0 4px 18px rgba(0,0,0,0.6); background: #101418; }
+#district-label { margin-top: 6px; text-align: center; }
+#district-name { display: inline-block; background: rgba(10,12,16,0.85); border: 1px solid #ffd21f; border-radius: 10px; padding: 2px 10px; font-size: 12px; font-weight: 700; letter-spacing: 1px; }
+#district-street { display: block; margin: 5px 0 3px; font-size: 11px; color: #cfd6de; text-shadow: 0 1px 3px #000; background: rgba(10,12,16,0.92); border-radius: 6px; padding: 1px 6px; }
+#rep-bar { height: 6px; background: rgba(255,255,255,0.25); border-radius: 3px; margin-top: 6px; overflow: hidden; }
+#rep-fill { display: block; height: 100%; width: 64%; background: linear-gradient(90deg, #3fae8f, #7be0a3); }
+#rep-text { margin-top: 3px; font-size: 10px; letter-spacing: 1px; color: #dfe6ec; text-shadow: 0 1px 3px #000; background: rgba(10,12,16,0.92); border-radius: 6px; padding: 1px 6px; display: inline-block; }
+
+#top-center { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); text-align: center; }
+#money-row { font-size: 20px; font-weight: 700; text-shadow: 0 2px 4px #000; }
+#money { color: #7be0a3; margin-right: 14px; }
+#stars { color: #ffd21f; letter-spacing: 2px; margin-right: 14px; }
+#clock, #year { font-size: 14px; color: #fff; }
+#year { margin-left: 8px; }
+#weapons { display: flex; gap: 8px; justify-content: center; margin-top: 8px; }
+.wslot { width: 58px; height: 52px; background: rgba(12,14,18,0.78); border: 2px solid rgba(255,255,255,0.35); border-radius: 8px; position: relative; text-align: center; }
+.wslot.active { border-color: #ff8c2e; background: rgba(255,140,46,0.85); }
+.wslot.locked { opacity: 0.55; }
+.wslot .wicon { font-size: 12px; font-weight: 800; letter-spacing: 0.5px; display: block; margin-top: 9px; color: #fff; }
+.wslot .wammo { font-size: 10px; color: #fff; display: block; }
+.wslot .wnum { position: absolute; top: 2px; left: 5px; font-size: 11px; font-weight: 700; color: #ffd21f; }
+#weapon-name { margin-top: 6px; font-size: 13px; font-weight: 700; letter-spacing: 1px; text-shadow: 0 2px 4px #000; }
+
+#right-boxes { position: absolute; top: 14px; right: 14px; width: 236px; display: flex; flex-direction: column; gap: 8px; }
+.rbox { background: rgba(10,12,16,0.82); border: 1px solid rgba(255,255,255,0.25); border-radius: 10px; padding: 8px 12px; }
+.rbox-title { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
+.rbox-title .eq { float: right; color: #ff5a7a; }
+.rbox-sub { font-size: 11px; color: #cfd6de; margin-top: 2px; display: flex; align-items: center; gap: 6px; }
+.bar { flex: 1; height: 6px; background: rgba(255,255,255,0.25); border-radius: 3px; overflow: hidden; }
+.bar span { display: block; height: 100%; background: #7be0a3; }
+#veh-fill { width: 92%; }
+.veh-big { margin-top: 4px; }
+#veh-value { font-size: 34px; font-weight: 800; line-height: 1; }
+#veh-unit { font-size: 12px; font-weight: 700; color: #ffd21f; margin-left: 4px; }
+#veh-gear { float: right; background: rgba(255,255,255,0.2); border-radius: 5px; padding: 2px 8px; font-size: 12px; font-weight: 700; }
+.veh-segs { display: flex; gap: 3px; margin-top: 6px; }
+.veh-segs span { flex: 1; height: 4px; background: #7be0a3; border-radius: 2px; }
+.veh-segs span:nth-child(n+5) { background: #ffd21f; }
+
+#mission-panel { position: absolute; left: 14px; top: 258px; width: 250px; background: rgba(10,12,16,0.82); border: 1px solid rgba(255,255,255,0.22); border-radius: 10px; padding: 10px 12px; font-size: 12px; }
+.mp-kicker { font-size: 10px; letter-spacing: 2px; color: #9aa4b0; }
+#mission-title { font-size: 15px; font-weight: 800; color: #ffd21f; margin: 2px 0; }
+#mission-brief { color: #e8edf2; line-height: 1.35; }
+.mp-row { display: flex; justify-content: space-between; margin-top: 6px; font-weight: 700; }
+.mp-bar { height: 6px; background: rgba(255,255,255,0.25); border-radius: 3px; margin-top: 5px; overflow: hidden; }
+#mission-progress { display: block; height: 100%; width: 25%; background: #ffd21f; }
+#mission-next { margin-top: 6px; color: #cfd6de; font-size: 11px; letter-spacing: 1px; }
+#dispatch { margin-top: 6px; color: #8fd0ff; font-size: 11px; line-height: 1.35; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 6px; }
+.mp-health { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 11px; }
+#health-fill { width: 95%; background: #7be0a3; }
+
+#crew-row { position: absolute; left: 14px; bottom: 12px; display: flex; gap: 6px; }
+.crew-card { width: 56px; text-align: center; }
+.crew-card canvas { width: 52px; height: 52px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.5); background: #222; }
+.crew-card.you canvas { border-color: #ffd21f; }
+.crew-name { font-size: 10px; font-weight: 800; margin-top: 2px; text-shadow: 0 1px 3px #000; }
+.crew-sub { font-size: 8px; color: #ffd21f; text-shadow: 0 1px 3px #000; }
+
+#dialog-panel { position: absolute; left: 50%; transform: translateX(-50%); bottom: 12px; width: 460px; background: rgba(10,12,16,0.85); border: 1px solid rgba(255,255,255,0.25); border-radius: 12px; padding: 10px 12px; display: flex; gap: 12px; align-items: center; }
+#dialog-portrait { width: 52px; height: 52px; border-radius: 10px; border: 2px solid #ffd21f; flex: none; }
+#dialog-name { font-weight: 800; color: #ff8c2e; font-size: 13px; }
+#dialog-role { font-size: 10px; color: #9aa4b0; letter-spacing: 1px; }
+#dialog-line { font-size: 13px; margin-top: 3px; line-height: 1.35; }
+
+#toast { position: absolute; top: 42%; left: 50%; transform: translateX(-50%); background: rgba(10,12,16,0.9); border: 1px solid #ffd21f; color: #ffd21f; font-weight: 800; font-size: 17px; letter-spacing: 1px; padding: 10px 22px; border-radius: 10px; text-align: center; }
+#floaters { position: absolute; inset: 0; overflow: hidden; }
+.floater { position: absolute; font-size: 15px; font-weight: 800; text-shadow: 0 2px 4px #000; transform: translate(-50%, -50%); }
+
+/* ---------- Overlays ---------- */
+.overlay { position: absolute; inset: 0; background: rgba(6,8,12,0.42); color: #fff; }
+#title-screen { background: linear-gradient(180deg, rgba(6,8,14,0.55) 0%, rgba(6,8,14,0.15) 45%, rgba(6,8,14,0.55) 100%); }
+.title-text { position: absolute; top: 42px; left: 56px; }
+.title-text h1 { font-size: 84px; font-weight: 900; letter-spacing: 4px; line-height: 0.95; background: linear-gradient(180deg, #ffd21f, #ff8c2e); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 4px 22px rgba(0,0,0,0.45); }
+.title-sub { font-size: 20px; letter-spacing: 8px; margin-top: 8px; font-weight: 600; }
+.title-quote { margin-top: 10px; font-style: italic; font-size: 14px; color: #e8edf2; background: rgba(0,0,0,0.45); display: inline-block; padding: 4px 10px; border-left: 3px solid #ff8c2e; }
+.title-buttons { position: absolute; left: 56px; top: 330px; display: flex; flex-direction: column; gap: 10px; width: 220px; }
+.tbtn { pointer-events: auto; background: rgba(12,14,18,0.85); color: #fff; border: 1px solid rgba(255,255,255,0.4); border-radius: 9px; padding: 11px 16px; font-size: 14px; font-weight: 700; letter-spacing: 2px; cursor: pointer; text-align: left; }
+.tbtn.primary { background: #ff8c2e; border-color: #ff8c2e; }
+.tbtn:hover { border-color: #ffd21f; }
+.title-foot { position: absolute; left: 56px; right: 56px; bottom: 18px; display: flex; justify-content: space-between; font-size: 11px; letter-spacing: 1px; color: #dfe6ec; text-shadow: 0 1px 3px #000; }
+.title-foot span:last-child { text-align: right; }
+
+#map-screen { display: flex; background: #0a0d12; padding: 18px 22px; gap: 18px; }
+.map-col h2 { font-size: 15px; letter-spacing: 1px; color: #ffd21f; margin-bottom: 6px; }
+.map-col.left { width: 250px; flex: none; }
+.map-col.center { flex: 1; text-align: center; }
+.map-col.right { width: 210px; flex: none; }
+.map-sub { font-size: 10px; letter-spacing: 1px; color: #9aa4b0; margin: 4px 0 8px; }
+#mission-list { font-size: 12px; }
+.mrow { display: flex; gap: 6px; padding: 5px 6px; border-radius: 6px; }
+.mrow.active { background: rgba(255,210,31,0.18); outline: 1px solid #ffd21f; }
+.mrow.done { color: #8fd0a0; }
+.mrow .mnum { color: #9aa4b0; width: 18px; }
+.mrow .mname { flex: 1; }
+.mrow .mreward { color: #ffd21f; font-weight: 700; }
+.mrow .mstate { color: #9aa4b0; font-size: 10px; }
+.map-job { margin-top: 14px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 10px; font-size: 12px; }
+#map-job-name { font-size: 16px; font-weight: 800; color: #ffd21f; }
+#bigmap { border: 1px solid rgba(255,255,255,0.25); border-radius: 8px; background: #0d1117; }
+.stat-row { display: flex; justify-content: space-between; font-size: 12px; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.stat-row b { color: #fff; }
+.stat-ring { width: 84px; height: 84px; border-radius: 50%; border: 8px solid rgba(255,255,255,0.2); border-top-color: #ffd21f; margin: 12px auto; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; }
+.map-col.right h3 { font-size: 13px; color: #ffd21f; margin: 8px 0 6px; letter-spacing: 1px; }
+.legend { font-size: 11px; color: #dfe6ec; margin: 3px 0; }
+.lg { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.lg.yellow { background: #ffd21f; } .lg.blue { background: #4a90ff; } .lg.red { background: #ff4040; }
+.lg.green { background: #3fae8f; } .lg.orange { background: #ff8c2e; }
+.map-col.right .tbtn { width: 100%; margin-top: 8px; text-align: center; }
+
+.panel-box { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 480px; background: rgba(10,12,16,0.94); border: 1px solid rgba(255,255,255,0.3); border-radius: 14px; padding: 24px; text-align: center; }
+.panel-box h2 { color: #ffd21f; letter-spacing: 1px; margin-bottom: 10px; }
+.panel-box p { font-size: 13px; color: #dfe6ec; margin-bottom: 12px; }
+.upg-row { display: flex; align-items: center; gap: 10px; font-size: 13px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.12); text-align: left; }
+.upg-row span { flex: 1; }
+.upg-row b { color: #ffd21f; }
+.upg-buy { background: #ff8c2e; border: none; color: #fff; font-weight: 800; padding: 7px 14px; border-radius: 7px; cursor: pointer; }
+.panel-box .tbtn { margin-top: 14px; text-align: center; }
+.passed h2 { font-size: 34px; color: #7be0a3; }
+#passed-name { font-size: 20px; font-weight: 800; margin: 6px 0; }
+#passed-reward { font-size: 30px; font-weight: 900; color: #ffd21f; margin: 8px 0; }
+#passed-stats { font-size: 12px; color: #9aa4b0; margin-bottom: 8px; }

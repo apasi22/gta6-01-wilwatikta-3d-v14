@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WILWATIKTA 3D — Cerita Jalanan 1998</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="stage">
+  <canvas id="game" width="2560" height="1440"></canvas>
+
+  <!-- ======= HUD ======= -->
+  <div id="hud">
+    <div id="minimap-wrap">
+      <canvas id="minimap" width="150" height="150"></canvas>
+      <div id="district-label"><span id="district-name">PANTAI KIDUL</span><span id="district-street">Jl. Pasar Senja</span></div>
+      <div id="rep-bar"><div id="rep-fill"></div></div>
+      <div id="rep-text">REP FIXER · 1320 · LV 4</div>
+    </div>
+
+    <div id="top-center">
+      <div id="money-row"><span id="money">$12,480</span><span id="stars">★★★☆☆</span><span id="clock">18:37 · DAY 1</span><span id="year">1998</span></div>
+      <div id="weapons">
+        <div class="wslot" data-slot="0"><span class="wicon">FIST</span><span class="wammo">∞</span><span class="wnum">0</span></div>
+        <div class="wslot" data-slot="1"><span class="wicon">PISTOL</span><span class="wammo">12/60</span><span class="wnum">1</span></div>
+        <div class="wslot active" data-slot="2"><span class="wicon">SMG</span><span class="wammo">32/160</span><span class="wnum">2</span></div>
+        <div class="wslot locked" data-slot="3"><span class="wicon">SHOTGUN</span><span class="wammo">LOCKED</span><span class="wnum">3</span></div>
+        <div class="wslot locked" data-slot="4"><span class="wicon">RIFLE</span><span class="wammo">LOCKED</span><span class="wnum">4</span></div>
+      </div>
+      <div id="weapon-name">SMG TAWON · 32/160 ROUNDS</div>
+    </div>
+
+    <div id="right-boxes">
+      <div class="rbox" id="radio-box">
+        <div class="rbox-title">♪ <span id="radio-name">GAMELAN FM 101.1</span><span class="eq">▂▄▆█</span></div>
+        <div class="rbox-sub" id="radio-track">Bonang Malam — Gamelan Wilwatikta</div>
+      </div>
+      <div class="rbox" id="vehicle-box">
+        <div class="rbox-title"><span id="veh-name">GARUDA GT</span></div>
+        <div class="rbox-sub"><span id="veh-label">CONDITION</span><span class="bar"><span id="veh-fill"></span></span><span id="veh-pct">92%</span></div>
+        <div class="veh-big"><span id="veh-value">100</span><span id="veh-unit">KM/H</span><span id="veh-gear">G3</span></div>
+        <div class="veh-segs"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      </div>
+    </div>
+
+    <div id="mission-panel">
+      <div class="mp-kicker">STORY MISSION</div>
+      <div id="mission-title">MISSION 6/12 — BALAPAN SENJA</div>
+      <div id="mission-brief">Checkpoint 1 of 4: PANTAI KIDUL</div>
+      <div class="mp-row"><span>◷ <span id="mission-timer">3:13</span></span><span id="mission-dist">▲ 147m</span></div>
+      <div class="mp-bar"><span id="mission-progress"></span></div>
+      <div id="mission-next">NEXT: GUDANG SEGARA</div>
+      <div id="dispatch">WPD DISPATCH: 2 unit mengejar · HELI 2 SPOTLIGHT — PANTAI KIDUL</div>
+      <div class="mp-health"><span>HEALTH</span><span class="bar"><span id="health-fill"></span></span></div>
+    </div>
+
+    <div id="crew-row"></div>
+
+    <div id="dialog-panel">
+      <canvas id="dialog-portrait" width="64" height="64"></canvas>
+      <div class="dlg-text"><span id="dialog-name">BAMBANG</span> <span id="dialog-role">MECHANIC · BENGKEL</span>
+      <div id="dialog-line">Your Garuda needs new brakes. Come by the bengkel.</div></div>
+    </div>
+
+    <div id="toast" class="hidden"></div>
+    <div id="floaters"></div>
+  </div>
+
+  <!-- ======= TITLE ======= -->
+  <div id="title-screen" class="overlay">
+    <div class="title-text">
+      <h1>WILWATIKTA</h1>
+      <div class="title-sub">CERITA JALANAN · 1998</div>
+      <div class="title-quote">“Setiap jalan punya harga. Setiap pelarian punya cerita.”</div>
+    </div>
+    <div class="title-buttons">
+      <button id="btn-start" class="tbtn primary">▶&nbsp; MULAI</button>
+      <button id="btn-save" class="tbtn">💾&nbsp; SAVE</button>
+      <button id="btn-load" class="tbtn">📂&nbsp; LOAD</button>
+      <button id="btn-end" class="tbtn">⏻&nbsp; END GAME</button>
+    </div>
+    <div class="title-foot">
+      <span>WASD GERAK · MOUSE KAMERA · E MASUK MOBIL · KLIK TEMBAK · Q GANTI SENJATA · M PETA · R RADIO</span>
+      <span>WILWATIKTA 3D · KOTA WILWATIKTA · 1998<br>KARYA ORISINAL · DIBUAT UNTUK MAKE.FUN</span>
+    </div>
+  </div>
+
+  <!-- ======= MAP ======= -->
+  <div id="map-screen" class="overlay hidden">
+    <div class="map-col left">
+      <h2>📜 STORY MISSIONS</h2>
+      <div class="map-sub">STORY <span id="story-count">5 / 12 jobs</span></div>
+      <div id="mission-list"></div>
+      <div class="map-job">
+        <div class="map-sub">CURRENT JOB</div>
+        <div id="map-job-name">Balapan Senja</div>
+        <div id="map-job-detail">Checkpoint 1 of 4: PANTAI KIDUL</div>
+        <div id="map-job-gps">GPS 208 m</div>
+        <div class="map-sub">M = TUTUP PETA · KLIK IKON UNTUK GPS</div>
+      </div>
+    </div>
+    <div class="map-col center">
+      <h2>🗺️ PETA WILWATIKTA — GPS AKTIF</h2>
+      <canvas id="bigmap" width="640" height="600"></canvas>
+    </div>
+    <div class="map-col right">
+      <h2>📊 STATS</h2>
+      <div class="stat-row"><span>STORY</span><b id="stat-story">42%</b></div>
+      <div class="stat-row"><span>REP</span><b id="stat-rep">FIXER · 1320</b></div>
+      <div class="stat-row"><span>CASH</span><b id="stat-cash">$12,480</b></div>
+      <div class="stat-row"><span>TIME</span><b id="stat-time">18:37 · DAY 1</b></div>
+      <div class="stat-row"><span>WANTED</span><b id="stat-wanted">★★★☆☆</b></div>
+      <div class="stat-row"><span>TAKEDOWNS</span><b id="stat-kills">14</b></div>
+      <div class="stat-row"><span>CARS STOLEN</span><b id="stat-cars">6</b></div>
+      <div class="stat-row"><span>STUNTS</span><b id="stat-stunts">$2,150</b></div>
+      <div class="stat-ring"><span id="map-progress">42%</span></div>
+      <h3>LEGENDA</h3>
+      <div class="legend"><span class="lg yellow"></span>Objective / Checkpoint</div>
+      <div class="legend"><span class="lg blue"></span>WPD / Polisi</div>
+      <div class="legend"><span class="lg red"></span>Musuh / Gang</div>
+      <div class="legend"><span class="lg green"></span>Safehouse / Garage</div>
+      <div class="legend"><span class="lg orange"></span>Crew / Kontak</div>
+      <button id="btn-close-map" class="tbtn">TUTUP [M]</button>
+      <button id="btn-title-map" class="tbtn">TITLE</button>
+    </div>
+  </div>
+
+  <!-- ======= UPGRADE ======= -->
+  <div id="upgrade-screen" class="overlay hidden">
+    <div class="panel-box">
+      <h2>🔧 BENGKEL BAMBANG — UPGRADE</h2>
+      <p>Uangmu: <b id="upg-money">$12,480</b> · Bengkel di Alun-Alun, buka 24 jam.</p>
+      <div class="upg-row"><span>🛡️ Armor — tahan 50 damage</span><b>$400</b><button class="upg-buy" data-upg="armor">BELI</button></div>
+      <div class="upg-row"><span>⚙️ Mesin Garuda GT — kondisi 100%</span><b>$600</b><button class="upg-buy" data-upg="engine">BELI</button></div>
+      <div class="upg-row"><span>🛞 Ban balap — grip + handling</span><b>$350</b><button class="upg-buy" data-upg="tires">BELI</button></div>
+      <button id="btn-close-upgrade" class="tbtn">TUTUP [U]</button>
+    </div>
+  </div>
+
+  <!-- ======= MISSION PASSED ======= -->
+  <div id="passed-screen" class="overlay hidden">
+    <div class="panel-box passed">
+      <h2 id="passed-title">MISSION PASSED</h2>
+      <div id="passed-name">BALAPAN SENJA</div>
+      <div id="passed-reward">+$700</div>
+      <div id="passed-stats">Waktu 3:13 · Takedown 14 · Mobil dicuri 6</div>
+      <button id="btn-next-mission" class="tbtn primary">MISI BERIKUTNYA ▶</button>
+    </div>
+  </div>
+
+  <!-- ======= PAUSE ======= -->
+  <div id="pause-screen" class="overlay hidden">
+    <div class="panel-box">
+      <h2>⏸ JEDA — WILWATIKTA</h2>
+      <p>P = lanjut · M = peta · U = bengkel · R = ganti radio</p>
+    </div>
+  </div>
+</div>
+<script type="module" src="js/game.js"></script>
+</body>
+</html>
